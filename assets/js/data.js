@@ -418,7 +418,7 @@ const PLAYERS = [
     "name": "Lester Val Paraico",
     "number": "8",
     "height": "6'0\"",
-    "position": "TBA",
+    "position": "Shooting Guard",
     "college": "Iloilo Science and Technology University",
     "image": "assets/images/1000023992.jpg",
     "note": "Player of the Game \u2022 28 PTS"
@@ -460,16 +460,14 @@ const TOURNAMENTS = [
     "meta": "Elkordy Brothers vs Oking Pototan",
     "result": "Historic first tournament game",
     "story": "The first major tournament stage where Elkordy Brothers began its official competitive journey.",
-    "cover": "assets/images/1000024073.jpg",
+    "cover": "assets/images/1000024074.jpg",
     "gallery": [
-      "1000024073.jpg",
       "1000024074.jpg",
       "1000024075.jpg",
       "1000024076.jpg",
       "1000024077.jpg",
       "1000024078.jpg",
-      "1000024079.jpg",
-      "1000024083.jpg"
+      "1000024079.jpg"
     ],
     "roster": [
       "Tachado",
@@ -485,49 +483,22 @@ const TOURNAMENTS = [
     ]
   },
   {
-    "title": "Featured Match",
-    "kicker": "Panay-Guimaras Tournament",
-    "meta": "Elkordy Brothers vs Uniwheels San Agustin",
-    "result": "Tournament feature matchup",
-    "story": "A high-level matchup that became part of the tournament story and later returned in the semi-final stage.",
-    "cover": "assets/images/1000024030.jpg",
-    "gallery": [
-      "1000024030.jpg",
-      "1000024031.jpg",
-      "1000024033.jpg",
-      "1000024035.jpg",
-      "1000024037.jpg",
-      "1000024039.jpg",
-      "1000024041.jpg",
-      "1000024044.jpg",
-      "1000024048.jpg"
-    ],
-    "roster": [
-      "Sabando",
-      "Palencia",
-      "Arguelles",
-      "Cuerbo",
-      "Paraico",
-      "Gonzaga",
-      "Celeste",
-      "Tachado"
-    ]
-  },
-  {
     "title": "Win vs Double 8",
     "kicker": "Mayor Stephen A. Palmares Cup Season 2",
     "meta": "Elkordy Brothers 80 \u2014 Double 8 70",
     "result": "Winner: Elkordy Brothers",
-    "story": "A confirmed tournament win and one of the first major scoreline highlights for the team.",
+    "story": "Brotherhood on full display. Elkordy locked in, stayed composed, and closed out Double 8 80\u201370 \u2014 a statement win that set the tone for the run.",
     "cover": "assets/images/1000024106.jpg",
     "gallery": [
       "1000024106.jpg",
-      "1000023998.jpg",
-      "1000024001.jpg",
-      "1000024005.jpg",
-      "1000024007.jpg",
       "1000024063.jpg",
-      "1000024064.jpg"
+      "1000024064.jpg",
+      "1000024065.jpg",
+      "1000024066.jpg",
+      "1000024089.jpg",
+      "1000024091.jpg",
+      "1000024092.jpg",
+      "1000024093.jpg"
     ],
     "roster": [
       "Cuerbo",
@@ -550,9 +521,7 @@ const TOURNAMENTS = [
     "gallery": [
       "1000023993.jpg",
       "1000023992.jpg",
-      "1000023985.jpg",
-      "1000023970.jpg",
-      "1000023987.jpg"
+      "1000023985.jpg"
     ],
     "roster": [
       "Lester Val Paraico",
@@ -574,11 +543,19 @@ const TOURNAMENTS = [
     "cover": "assets/images/1000023987.jpg",
     "gallery": [
       "1000023987.jpg",
-      "1000023985.jpg",
-      "1000024089.jpg",
-      "1000024091.jpg",
-      "1000024092.jpg",
-      "1000024093.jpg"
+      "playin-01.jpg",
+      "playin-02.jpg",
+      "playin-03.jpg",
+      "playin-04.jpg",
+      "playin-05.jpg",
+      "playin-06.jpg",
+      "playin-07.jpg",
+      "playin-08.jpg",
+      "playin-09.jpg",
+      "playin-10.jpg",
+      "playin-11.jpg",
+      "playin-12.jpg",
+      "playin-13.jpg"
     ],
     "roster": [
       "Cuerbo",
@@ -597,15 +574,29 @@ const TOURNAMENTS = [
     "meta": "Elkordy Brothers vs Passi City Qualitech",
     "result": "Winner: Elkordy Brothers \u2022 111\u2013100",
     "story": "Elkordy Brothers won the battle for the final Magic 4 semi-final spot and secured one of the biggest milestones in team history.",
-    "cover": "assets/images/1000023989.jpg",
+    "cover": "assets/images/magic4-12.jpg",
     "gallery": [
-      "1000023989.jpg",
-      "1000023965.jpg",
-      "1000023966.jpg",
-      "1000023967.jpg",
-      "1000023968.jpg",
-      "1000023969.jpg",
-      "1000023970.jpg"
+      "magic4-12.jpg",
+      "magic4-01.jpg",
+      "magic4-02.jpg",
+      "magic4-03.jpg",
+      "magic4-04.jpg",
+      "magic4-05.jpg",
+      "magic4-06.jpg",
+      "magic4-07.jpg",
+      "magic4-08.jpg",
+      "magic4-09.jpg",
+      "magic4-10.jpg",
+      "magic4-11.jpg",
+      "magic4-13.jpg",
+      "magic4-14.jpg",
+      "magic4-15.jpg",
+      "magic4-16.jpg",
+      "magic4-17.jpg",
+      "magic4-18.jpg",
+      "magic4-19.jpg",
+      "magic4-20.jpg",
+      "magic4-21.jpg"
     ],
     "roster": [
       "Arguelles",

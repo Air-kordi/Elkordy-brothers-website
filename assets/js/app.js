@@ -72,6 +72,7 @@ function setupMediaWallMotion() {
   if (!items.length) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
   items.forEach(item => {
     revealObserver.observe(item);
@@ -79,6 +80,7 @@ function setupMediaWallMotion() {
       item.classList.add('in-view');
       return;
     }
+    if (coarsePointer) return;
 
     item.addEventListener('pointermove', event => {
       const rect = item.getBoundingClientRect();
@@ -132,35 +134,98 @@ function renderPlayers() {
   });
 }
 
+function getTournamentSlides(tournament) {
+  const files = (tournament.gallery && tournament.gallery.length)
+    ? tournament.gallery
+    : [tournament.cover.replace('assets/images/', '')];
+  return files.map(file => file.startsWith('assets/') ? file : `assets/images/${file}`);
+}
+
 function renderTournaments() {
   const timeline = $('#tournamentTimeline');
-  timeline.innerHTML = TOURNAMENTS.map((tournament, index) => `
+  timeline.innerHTML = TOURNAMENTS.map((tournament, index) => {
+    const slides = getTournamentSlides(tournament);
+    return `
     <article class="tournament-card reveal delay-${index % 3}">
-      <img class="cover" src="${tournament.cover}" alt="${tournament.title}" loading="lazy" />
+      <div class="tournament-slideshow" data-tournament="${index}" data-index="0">
+        <img class="tournament-slideshow__image" src="${slides[0]}" alt="${tournament.title}" loading="lazy" />
+        <button class="tournament-slideshow__nav tournament-slideshow__nav--prev" type="button" aria-label="Previous photo">‹</button>
+        <button class="tournament-slideshow__nav tournament-slideshow__nav--next" type="button" aria-label="Next photo">›</button>
+        <div class="tournament-slideshow__meta">
+          <span class="tournament-slideshow__count">1 / ${slides.length}</span>
+        </div>
+      </div>
       <div>
         <p class="eyebrow">${tournament.kicker}</p>
         <h3>${tournament.title}</h3>
         <p class="meta">${tournament.meta}</p>
         <span class="result-pill">${tournament.result}</span>
         <p>${tournament.story}</p>
-        <ul class="roster">
-          ${tournament.roster.map(name => `<li>${name}</li>`).join('')}
-        </ul>
-        <div class="mini-gallery" aria-label="${tournament.title} media">
-          ${tournament.gallery.map((img, imgIndex) => `
-            <img src="assets/images/${img}" alt="${tournament.title} image ${imgIndex + 1}" loading="lazy" data-tournament="${index}" data-image-index="${imgIndex}" />
-          `).join('')}
-        </div>
       </div>
     </article>
-  `).join('');
+  `;
+  }).join('');
 
-  $$('.mini-gallery img', timeline).forEach(img => {
-    img.addEventListener('click', () => {
-      const tournament = TOURNAMENTS[Number(img.dataset.tournament)];
-      const list = tournament.gallery.map(file => ({ src: `assets/images/${file}`, title: tournament.title }));
-      openLightbox(Number(img.dataset.imageIndex), list);
+  $$('.tournament-slideshow', timeline).forEach(slider => {
+    const tournament = TOURNAMENTS[Number(slider.dataset.tournament)];
+    const slides = getTournamentSlides(tournament);
+    const image = $('.tournament-slideshow__image', slider);
+    const count = $('.tournament-slideshow__count', slider);
+    let current = 0;
+    let timer = null;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const show = (nextIndex) => {
+      current = (nextIndex + slides.length) % slides.length;
+      image.style.opacity = '0.35';
+      window.setTimeout(() => {
+        image.src = slides[current];
+        image.alt = `${tournament.title} photo ${current + 1}`;
+        count.textContent = `${current + 1} / ${slides.length}`;
+        slider.dataset.index = String(current);
+        image.style.opacity = '1';
+      }, 160);
+    };
+
+    const stopAutoplay = () => {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (reduceMotion || slides.length < 2) return;
+      timer = window.setInterval(() => show(current + 1), 3500);
+    };
+
+    $('.tournament-slideshow__nav--prev', slider).addEventListener('click', (event) => {
+      event.stopPropagation();
+      show(current - 1);
+      startAutoplay();
     });
+    $('.tournament-slideshow__nav--next', slider).addEventListener('click', (event) => {
+      event.stopPropagation();
+      show(current + 1);
+      startAutoplay();
+    });
+    image.addEventListener('click', () => {
+      openLightbox(current, slides.map((src, i) => ({ src, title: `${tournament.title} • ${i + 1}` })));
+    });
+
+    slider.addEventListener('mouseenter', stopAutoplay);
+    slider.addEventListener('mouseleave', startAutoplay);
+    slider.addEventListener('focusin', stopAutoplay);
+    slider.addEventListener('focusout', startAutoplay);
+
+    const autoplayObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) startAutoplay();
+        else stopAutoplay();
+      });
+    }, { threshold: 0.35 });
+    autoplayObserver.observe(slider);
   });
 }
 
@@ -235,29 +300,6 @@ window.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') nextImage(1);
 });
 
-function animateCounters() {
-  const counters = $$('[data-count]');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const end = Number(el.dataset.count);
-      const duration = 1600;
-      const startTime = performance.now();
-      const formatter = new Intl.NumberFormat('en-US');
-      function tick(now) {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = formatter.format(Math.floor(end * eased));
-        if (progress < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-      observer.unobserve(el);
-    });
-  }, { threshold: .8 });
-  counters.forEach(counter => observer.observe(counter));
-}
-
 function setupTiltCards() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   $$('.tilt-card').forEach(card => {
@@ -280,6 +322,5 @@ renderPlayers();
 renderTournaments();
 renderAchievements();
 observeReveals();
-animateCounters();
 setupTiltCards();
 siteHeader.classList.toggle('scrolled', window.scrollY > 24);
